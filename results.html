@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Search Results</h1>
+
+    <!-- Price Filter Form -->
+    <form action="{{ url_for('filter_by_price') }}" method="GET">
+        <input type="hidden" name="neighbourhood" value="{{ neighbourhood }}">
+        <input type="hidden" name="room_type" value="{{ room_type }}">
+        <div>
+            <label for="price_min">Minimum Price:</label>
+            <input type="number" id="price_min" name="price_min" placeholder="0" min="0">
+        </div>
+        <div>
+            <label for="price_max">Maximum Price:</label>
+            <input type="number" id="price_max" name="price_max" placeholder="1000" min="0">
+        </div>
+        <button type="submit">Filter by Price</button>
+    </form>
+
+    {% if results %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Host ID</th>
+                <th>Host Name</th>
+                <th>Neighbourhood Group</th>
+                <th>Neighbourhood</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Room Type</th>
+                <th>Price</th>
+                <th>Minimum Nights</th>
+                <th>Number of Reviews</th>
+                <th>Reviews Per Month</th>
+                <th>Calculated Host Listings Count</th>
+                <th>Availability (365 days)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.host_id }}</td>
+                <td>{{ row.host_name }}</td>
+                <td>{{ row.neighbourhood_group }}</td>
+                <td>{{ row.neighbourhood }}</td>
+                <td>{{ row.latitude }}</td>
+                <td>{{ row.longitude }}</td>
+                <td>{{ row.room_type }}</td>
+                <td>{{ row.price }}</td>
+                <td>{{ row.minimum_nights }}</td>
+                <td>{{ row.number_of_reviews }}</td>
+                <td>{{ row.reviews_per_month }}</td>
+                <td>{{ row.calculated_host_listings_count }}</td>
+                <td>{{ row.availability_365 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}">Back to search</a>
+</body>
+</html>
